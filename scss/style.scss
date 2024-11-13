@@ -2,10 +2,6 @@ h1 {
     color: black;
 }
 
-h2 {
-    // color: gray;
-}
-
 div {
     background-color: transparent;
 }
@@ -26,4 +22,19 @@ div {
         font-size: 1.2em;
         font-weight: bold;
     }
+}
+
+.signUp,.login {
+    background-color: #dbdbdb;
+    padding: 15px;
+
+    .title {
+        margin-bottom: 10px;
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+}
+
+.login {
+    margin-top: 10px;
 }

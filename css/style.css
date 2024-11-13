@@ -20,4 +20,18 @@ div {
 .list li {
   font-size: 1.2em;
   font-weight: bold;
+}
+
+.signUp, .login {
+  background-color: #dbdbdb;
+  padding: 15px;
+}
+.signUp .title, .login .title {
+  margin-bottom: 10px;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.login {
+  margin-top: 10px;
 }/*# sourceMappingURL=style.css.map */

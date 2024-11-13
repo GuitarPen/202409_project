@@ -1,6 +1,8 @@
 // time: 13:55
+
 // bmi歷史資料
 const bmiHistoryData = [];
+
 // bmi狀態資料
 const bmiStatesData = {
     "overThin": {
@@ -28,10 +30,12 @@ const bmiStatesData = {
         "color": "綠色"
     },
 };
+
 // 輸出bmi狀態資料
 function bmiStatesText(state){
     console.log(`您的體重${bmiStatesData[state].state}，健康指數為${bmiStatesData[state].color}`);
 };
+
 // 輸出bmi歷史資料
 function showHistoryData(){
     let bmiNum = bmiHistoryData.length;
@@ -40,6 +44,7 @@ function showHistoryData(){
     let lastState = bmiHistoryData[lastNum].state;
     console.log(`您總共計算 ${bmiNum} 次 BMI 紀錄，最後一次 BMI 指數為 ${lastBmi}，體重${bmiStatesData[lastState].state}！健康指數為${bmiStatesData[lastState].color}！`);
 };
+
 // 新增bmi歷史資料
 function addData(bmi,state){
     let obj = {};
@@ -47,6 +52,7 @@ function addData(bmi,state){
     obj.state = state;
     bmiHistoryData.push(obj);
 };
+
 // bmi計算
 function printBmi(height, weight){
     let bmi = Number((weight/(height/100)**2).toFixed(2));
@@ -74,6 +80,7 @@ function printBmi(height, weight){
         console.log(`您的數值輸入錯誤，請重新輸入`);
     }
 };
+
 printBmi(178, 20) 
 // 您的體重過輕
 printBmi(178, 70) 
@@ -90,6 +97,9 @@ printBmi(178, 85)
 // 您的數值輸入錯誤，請重新輸入
 showHistoryData();
 console.log(bmiHistoryData);
+
+
+
 
 // 第一階段：請寫 printBmi 函式，並印出對應狀態
 

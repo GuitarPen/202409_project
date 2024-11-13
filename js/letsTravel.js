@@ -1,37 +1,13 @@
 
 // 行程卡片資訊
-let data = [
-    {
-        "id": 0,
-        "name": "肥宅心碎賞櫻3日",
-        "imgUrl": "https://images.unsplash.com/photo-1522383225653-ed111181a951?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1655&q=80",
-        "area": "高雄",
-        "description": "賞櫻花最佳去處。肥宅不得不去的超讚景點！",
-        "group": 87,
-        "price": 1400,
-        "rate": 10
-    },
-    {
-        "id": 1,
-        "name": "貓空纜車雙程票",
-        "imgUrl": "https://images.unsplash.com/photo-1501393152198-34b240415948?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80",
-        "area": "台北",
-        "description": "乘坐以透明強化玻璃為地板的「貓纜之眼」水晶車廂，享受騰雲駕霧遨遊天際之感",
-        "group": 99,
-        "price": 240,
-        "rate": 2
-    },
-    {
-        "id": 2,
-        "name": "台中谷關溫泉會1日",
-        "imgUrl": "https://images.unsplash.com/photo-1535530992830-e25d07cfa780?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80",
-        "area": "台中",
-        "description": "全館客房均提供谷關無色無味之優質碳酸原湯，並取用八仙山之山冷泉供蒞臨貴賓沐浴及飲水使用。",
-        "group": 20,
-        "price": 1765,
-        "rate": 7
-    }
-];
+
+let data = [];
+
+axios.get('https://raw.githubusercontent.com/hexschool/js-training/main/travelApi.json')
+.then(function (response) {
+    data = response.data.data;
+    renderData(data);
+});
 
 // 把資料渲染到畫面
 const ticketCardArea = document.querySelector('.ticketCard-area');
@@ -81,23 +57,38 @@ const cantFindArea = document.querySelector('.cantFind-area');
 function filterData(){ // 篩選資料
     let filterResult = [];
 
-    data.forEach(function(item){
-        if(regionSearch.value === item.area){
-            filterResult.push(item);
-        };
-        if(!regionSearch.value){ // 邏輯運算子! 反轉布林結果
-            filterResult.push(item);
-        };
-    });
+    // 原本助教寫法
+    // data.forEach(function(item){
+    //     if(regionSearch.value === item.area){
+    //         filterResult.push(item);
+    //     };s
+    //     if(!regionSearch.value){ 
+    //         filterResult.push(item);
+    //     }
+    // });
 
-    // 如果篩選結果為空
-    if(filterResult.length > 0){
-        cantFindArea.style.display = 'none';
+    cantFindArea.style.display = 'none';
+    // 如果select空值(全部地區)則傳入全部資料，反之，傳入篩選結果
+    if(!regionSearch.value){ // 邏輯運算子! 反轉布林結果
+        renderData(data);
     } else {
-        cantFindArea.style.display = 'block';
+        // 篩選data的地點是否與select的地點相同
+        filterResult = data.filter((item) => item.area === regionSearch.value);
+        // 如果有空值則顯示無資料
+        if(filterResult.length === 0){
+            cantFindArea.style.display = 'block';
+        };
+        renderData(filterResult);
     };
 
-    renderData(filterResult);
+    // 原本助教寫法
+    // 如果篩選結果為空
+    // if(filterResult.length > 0){
+    //     cantFindArea.style.display = 'none';
+    // } else {
+    //     cantFindArea.style.display = 'block';
+    // };
+    // renderData(filterResult);
 };
 
 regionSearch.addEventListener('change',function(e){ // select改變選項時
@@ -154,8 +145,9 @@ function addTicket(){
     };
 
     data.push(obj);
-    regionSearch.value = ''; // 恢復選單為預設
     addTicketForm.reset(); // 重置表單
+    regionSearch.value = ''; // 恢復選單為預設
+    cantFindArea.style.display = 'none'; // 隱藏 "查無關鍵字" 的樣式
     renderData(data);
 };
 

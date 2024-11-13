@@ -35,8 +35,8 @@ data.forEach(function(item, index) {
         sort['其他'].push(item);
     }
 })
-console.log(sort);
-console.log(`補習班類別：文理類${sort['文理類'].length}筆，外語類${sort['外語類'].length}筆，音樂、舞蹈類${sort['音樂、舞蹈類'].length}筆，美術、書法、攝影、美工設計、圍棋類${sort['美術、書法、攝影、美工設計、圍棋類'].length}筆，商類：珠算、心算、會計${sort['商類：珠算、心算、會計'].length}筆，其他${sort['其他'].length}筆`);
+// console.log(sort);
+// console.log(`補習班類別：文理類${sort['文理類'].length}筆，外語類${sort['外語類'].length}筆，音樂、舞蹈類${sort['音樂、舞蹈類'].length}筆，美術、書法、攝影、美工設計、圍棋類${sort['美術、書法、攝影、美工設計、圍棋類'].length}筆，商類：珠算、心算、會計${sort['商類：珠算、心算、會計'].length}筆，其他${sort['其他'].length}筆`);
 
 // -------------------------------------------------------
 
@@ -273,3 +273,99 @@ toolsBtnMinus.addEventListener('click', function(e) {
     constNum --;
     toolsTitle.textContent = constNum;
 });
+
+// -------------------------------------------------------
+
+// axios用法
+
+let axiosAry = [];
+
+axios.get('https://hexschool.github.io/ajaxHomework/data.json') // 發出請求
+.then(function (response) {  // response參數，回傳的資料都在裡面
+    // console.log(response);
+    // console.log(response.data);
+    // console.log(response.status);
+    // console.log(response.statusText);
+    // console.log(response.headers);
+    // console.log(response.config);
+    console.log('資料回傳了');
+    axiosAry = response.data;
+    rentenData();
+});
+
+function rentenData(){
+    // 將回傳的資料印在首頁上
+    const title = document.querySelector('.title');
+    title.textContent = axiosAry[0].name;
+    console.log(title);
+}
+
+console.log(axiosAry);
+
+// -------------------------------------------------------
+
+// axios實做註冊 post 網路請求
+
+// 註冊功能
+const signUpAccount = document.querySelector('.signUp .account');
+const signUpPassword = document.querySelector('.signUp .password');
+const signUpBtn = document.querySelector('.signUp .btn');
+const signUpForm = document.querySelector('.signUp');
+
+signUpBtn.addEventListener('click', function(e) {
+    callSignUp();
+});
+
+function callSignUp() {
+    let regInfo = {};
+
+    if(!signUpAccount.value || !signUpPassword.value) {
+        alert('請確認帳號密碼');
+        return; 
+    } else {
+        regInfo.email = signUpAccount.value.trim();
+        regInfo.password = signUpPassword.value.trim();
+        signUpForm.reset();
+        console.log(regInfo);
+    }
+    
+    axios.post('https://escape-room.hexschool.io/api/user/signup', regInfo)
+    .then(function (response) {
+        alert(response.data.message);
+    })
+    .catch(function (error) {
+        alert(error.response.data.message);
+    });
+};
+
+// 登入功能
+const loginAccount = document.querySelector('.login .account');
+const loginPassword = document.querySelector('.login .password');
+const loginBtn = document.querySelector('.login .btn');
+const loginForm = document.querySelector('.login');
+
+loginBtn.addEventListener('click', function(e) {
+    callLogin();
+});
+
+function callLogin() {
+    let loginInfo = {};
+
+    if(!loginAccount.value || !loginPassword.value) {
+        alert('請輸入帳號密碼');
+        return; 
+    } else {
+        loginInfo.email = loginAccount.value.trim();
+        loginInfo.password = loginPassword.value.trim();
+        loginForm.reset();
+        console.log(loginInfo);
+    }
+
+    axios.post('https://escape-room.hexschool.io/api/user/signin', loginInfo)
+    .then(function (response) {
+        alert(response.data.message);
+    })
+    .catch(function (error) {
+        alert(error.response.data.message);
+    });
+};
